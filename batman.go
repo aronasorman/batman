@@ -30,11 +30,13 @@ func hello(w http.ResponseWriter, r *http.Request) {
 func initDb() (db gorm.DB, err error) {
 	// initialize the db
 	db, err = gorm.Open("sqlite3", "/tmp/gorm.db")
+	if err != nil {
+		panic(err)
+	}
 
 	// setup and migrate the tables, if necessary.
 	// AutoMigrate has some caveats. See documentation for
 	// details.
-	db.CreateTable(&Alert{})
 	db.AutoMigrate(&Alert{})
 
 	return
