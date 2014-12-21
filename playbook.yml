@@ -1,0 +1,42 @@
+---
+- hosts: prod
+  sudo: yes
+  sudo_user: www-data
+  vars:
+    - gopath: /var/www/go
+    - binary_name: batman
+    - packages:
+        - golang
+        - daemonize
+
+  tasks:
+    - name: create www-data user
+      user: name=www-data comment="web deploy user"
+      sudo: yes
+      tags:
+        - setup
+
+    - name: create www-data writable dir
+      file: path=/var/www owner=www-data state=directory
+      sudo: yes
+      sudo_user: root
+      tags:
+        - setup
+
+    - name: install required packages
+      apt: name=golang update_cache=yes cache_valid_time=3600
+      sudo: yes
+      sudo_user: root
+      tags:
+        - setup
+
+    - name: go get our app
+      shell: GOPATH={{ gopath }} go get -u github.com/aronasorman/batman
+      tags:
+        - update_server
+
+    - name: run the server
+      command: nohup {{ gopath }}/bin/{{ binary_name }}
+      tags:
+        - update_server
+        - run_server
