@@ -14,6 +14,7 @@ var db gorm.DB
 func main() {
 	r := pat.New()
 	r.Get("/alerts", getAlerts)
+	r.Post("/alerts", newAlert)
 
 	http.Handle("/", r)
 
@@ -32,12 +33,35 @@ func main() {
 }
 
 func getAlerts(w http.ResponseWriter, r *http.Request) {
+	// dummy alert, for testing
 	alert := Alert{
 		Id:       1,
 		Location: "Tondo",
 		Type:     "Murder",
 	}
+
+	// set application type to json
+	w.Header().Set("Content-Type", "application/json")
+
+	// encode the alerts to json, then write it to the client
 	json.NewEncoder(w).Encode(alert)
+}
+
+func newAlert(w http.ResponseWriter, r *http.Request) {
+	var alert Alert
+	body := r.Body
+
+	err := json.NewDecoder(body).Decode(&alert)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+	}
+
+	if db.NewRecord(&alert) {
+		db.Create(&alert)
+	}
+
+	w.Write([]byte("OK"))
 }
 
 func initDb() (db gorm.DB, err error) {
