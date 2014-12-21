@@ -1,0 +1,13 @@
+# Retrieve all alerts
+
+GET http://127.0.0.1:8000/alerts
+
+# Create a new alert
+
+POST http://127.0.0.1:8000/alerts
+Content-Type: application/json
+
+{
+        "location": "Muntinlupa",
+        "type": "Assault"
+}
