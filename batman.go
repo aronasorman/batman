@@ -34,17 +34,14 @@ func main() {
 
 func getAlerts(w http.ResponseWriter, r *http.Request) {
 	// dummy alert, for testing
-	alert := Alert{
-		Id:       1,
-		Location: "Tondo",
-		Type:     "Murder",
-	}
+	var alerts Alerts
+	db.Find(&alerts)
 
 	// set application type to json
 	w.Header().Set("Content-Type", "application/json")
 
 	// encode the alerts to json, then write it to the client
-	json.NewEncoder(w).Encode(alert)
+	json.NewEncoder(w).Encode(&alerts)
 }
 
 func newAlert(w http.ResponseWriter, r *http.Request) {
