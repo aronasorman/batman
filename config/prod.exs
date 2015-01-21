@@ -14,7 +14,7 @@ use Mix.Config
 config :phoenix, Batman.Router,
   url: [host: "example.com"],
   http: [port: System.get_env("PORT")],
-  secret_key_base: "PSerot/o4yVdegbNz81qfJLD2glw4bZxuC58NmtAi3fOWbCMxZBxOWt+cc5/ERcSOwjWOELLI/K4KxmFDH4LZg=="
+  secret_key_base: "9EKliUb78P6QZcaQ4PoDbAUin9qBUAyfbt0cECWE4j2hHtK+4S9MlP106pgpKBHZov+VrgR4NOQJQKo3ibxniQ=="
 
 config :logger,
   level: :info

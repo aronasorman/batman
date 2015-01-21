@@ -23,6 +23,7 @@ defmodule Batman.Mixfile do
   # Type `mix help deps` for examples and options
   defp deps do
     [{:phoenix, github: "phoenixframework/phoenix"},
+     {:linguist, github: "chrismccord/linguist"},
      {:cowboy, "~> 1.0"}]
   end
 end
